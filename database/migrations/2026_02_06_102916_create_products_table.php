@@ -13,6 +13,16 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('category_id')->constrained('categories');
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->string('image')->nullable();
+            $table->integer('stock');
+            $table->integer('price');
+            $table->enum('status', ['draft', 'published', 'archived'])->default('draft');
+            $table->enum('criteria', ['Perorang', 'Perpaket'])->default('Perorang');
+            $table->boolean('favorite')->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -22,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        //
     }
 };
