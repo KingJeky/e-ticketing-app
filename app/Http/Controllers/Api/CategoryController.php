@@ -28,10 +28,17 @@ class CategoryController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'required',
-            'image' => 'required',
         ]);
 
-        $category = Category::create($request->all());
+        $input = $request->all();
+
+        if ($image = $request->file('image')) {
+            $destinationPath = 'categories';
+            $imageName = $image->store($destinationPath, 'public');
+            $input['image'] = $imageName;
+        }
+
+        $category = Category::create($input);
 
         return response()->json([
             'status' => 'success',

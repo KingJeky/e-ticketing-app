@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->timestamp('transactions_time');
+            $table->integer('total_price');
+            $table->integer('total_item');
+            $table->integer('payment_amount');
+            $table->foreignId('cashier_id')->constrained('users');
+            $table->string('cashier_name');
+            $table->string('payment_method');
             $table->timestamps();
         });
     }
@@ -22,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        //
     }
 };
